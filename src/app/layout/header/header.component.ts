@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ApiHttpService } from '../../core/services/api-http.service';
+import { ApiService } from '../../core/services/api.service';
 
 @Component({
   selector: 'app-header',
@@ -7,14 +7,17 @@ import {ApiHttpService } from '../../core/services/api-http.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  constructor(private apiHttpService: ApiHttpService) { }
+  constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
-    this.apiHttpService
-      .get('http://127.0.0.1:3000/matches')
-      .subscribe((data) => {
-        console.log('Matches', data);
-      });
+    this.apiService.getMatches().subscribe((data) => {
+      console.log('Matches', data);
+    });
+
+    const match = {"createdAt":"2021-06-15T09:49:51.299Z","standings":["Zombie","Villager","Mario","Luigi"]}
+    this.apiService.addMatch(match).subscribe((data) => {
+      console.log('new match submitted', data);
+    });
   }
 
 }
