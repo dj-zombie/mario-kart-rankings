@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "mario-kart-rankings"
+    }
+  },
+  "defaultProject": "mario-kart-rankings",
+  "cli": {
+    "analytics": false
+  }
 }
