@@ -5,10 +5,13 @@ import { Component } from '@angular/core';
   // templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   template: `
-    <nav>
-      <a routerLink="rankings" routerLinkActive="active">Rankings</a>
-      <a routerLink="about" routerLinkActive="active">About</a>
-    </nav>
+    <div class="app-container">
+      <app-header></app-header>
+      <div class="main">
+        <router-outlet></router-outlet>
+      </div>
+      <app-footer></app-footer>
+    </div>
   `,
 })
 export class AppComponent {}
