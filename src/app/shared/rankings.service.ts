@@ -10,17 +10,29 @@ export interface Player {
   history: Array<PastGame>;
 }
 
+export interface Rankings extends Array<Player> {}
+
 export interface PastGame {
   date: string;
   newElo: string;
   pointsDifference: number;
 }
 
+export interface Match {
+  createdAt: string;
+  standings: Array<string>;
+}
+
+export interface Matches {
+  updatedAt: string;
+  list: Array<Match>
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class RankingsService {
-  rankedPlayers: any[];
+  rankedPlayers: Array<Player>;
   private _rankings: BehaviorSubject<Array<any>> = new BehaviorSubject(
     Array([])
   );
@@ -29,7 +41,7 @@ export class RankingsService {
   constructor(private apiService: ApiService) {
     this.rankedPlayers = [];
     this.apiService.matches.subscribe((matches: any) => {
-      matches.list.forEach((match: any) => {
+      matches.list.forEach((match: Match) => {
         this.addRankedGame(match.standings);
       });
       this._rankings.next(this.rankings);
@@ -53,6 +65,7 @@ export class RankingsService {
   }
 
   public addRankedGame(rankings: Array<string>): void {
+    console.log('add ranked game', rankings);
     rankings.forEach((name) => {
       const updatingPlayer = this.rankedPlayers.findIndex(
         (p: any) => p.playerName == name

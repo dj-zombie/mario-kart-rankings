@@ -1,9 +1,15 @@
 <div style="text-align: center; padding: 3rem">
   <h1>Rankings</h1>
+  <a [routerLink]="['/new-match']">
+    New Match
+  </a>
+  <hr/>
 
-  <div *ngIf="rankings">
-    <!-- <pre>{{ rankings | json }}</pre> -->
-    <div *ngFor="let ranking of rankings">
+  <!-- <div *ngIf="rankings$ | async"> -->
+  <div *ngIf="polledRankings$ | async">
+    <!-- <pre>{{ polledRankings$ | async | json }}</pre> -->
+    <!-- <div *ngFor="let ranking of rankings$ | async"> -->
+    <div *ngFor="let ranking of polledRankings$ | async">
       <a [routerLink]="['/player/' + ranking.playerName]">
         {{ ranking.playerName }} - {{ ranking.eloRating }}
       </a>

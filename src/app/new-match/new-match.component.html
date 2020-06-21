@@ -1,1 +1,18 @@
-<p>new-match works!</p>
+<div style="text-align: center; padding: 3rem">
+  <h1>New Match</h1>
+  <a routerLink="/rankings">Back</a>
+  <div class="example-container">
+    <mat-form-field appearance="fill" *ngFor="let i of iterator(numOfPlayers)">
+      <mat-label>Player {{i + 1}}</mat-label>
+      <input matInput placeholder="Mario" [formControl]="place[i]" required>
+      <mat-error *ngIf="place[i].invalid">{{getErrorMessage(i)}}</mat-error>
+    </mat-form-field>
+    <div>
+      <button (click)="addMatch()" mat-raised-button color="primary">
+        Add Match
+      </button>
+    </div>
+  </div>
+
+
+</div>
