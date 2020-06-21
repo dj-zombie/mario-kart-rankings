@@ -1,0 +1,13 @@
+<div style="text-align: center; padding:3rem;" *ngIf="player">
+  <h1>{{ player.playerName }} Stats</h1>
+  <div>
+    Rating: {{ player.eloRating }}
+  </div>
+  <div>
+    Games Played: {{ player.gamesPlayed }}
+  </div>
+  <div style="width: 320px; word-wrap: break-word; margin: 0 auto">
+    Past Ratings {{ player.pastRatings }}
+  </div>
+  <a routerLink="/rankings">Back</a>
+</div>

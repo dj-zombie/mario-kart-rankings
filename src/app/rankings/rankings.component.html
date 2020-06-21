@@ -1,0 +1,12 @@
+<div style="text-align: center; padding: 3rem">
+  <h1>Rankings</h1>
+
+  <div *ngIf="rankings">
+    <!-- <pre>{{ rankings | json }}</pre> -->
+    <div *ngFor="let ranking of rankings">
+      <a [routerLink]="['/player/' + ranking.playerName]">
+        {{ ranking.playerName }} - {{ ranking.eloRating }}
+      </a>
+    </div>
+  </div>
+</div>

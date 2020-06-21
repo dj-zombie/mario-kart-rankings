@@ -5,9 +5,13 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { LayoutModule } from './layout/layout.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RankingsComponent } from './rankings/rankings.component';
+import { PlayerStatsComponent } from './player-stats/player-stats.component';
+import { NewMatchComponent } from './new-match/new-match.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, RankingsComponent, PlayerStatsComponent, NewMatchComponent, PageNotFoundComponent],
   imports: [BrowserModule, AppRoutingModule, CoreModule, LayoutModule, BrowserAnimationsModule],
   providers: [],
   bootstrap: [AppComponent],
