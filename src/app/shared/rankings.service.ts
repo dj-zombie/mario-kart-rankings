@@ -7,6 +7,13 @@ export interface Player {
   eloRating: number;
   gamesPlayed: number;
   pastRatings: Array<number>;
+  history: Array<PastGame>;
+}
+
+export interface PastGame {
+  date: string;
+  newElo: string;
+  pointsDifference: number;
 }
 
 @Injectable({
