@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '../core/services/api.service';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { EloService } from '../shared/elo.service';
+import { ConstantPool } from '@angular/compiler';
 
 export interface Player {
   playerName: string;
@@ -68,31 +69,41 @@ export class RankingsService {
   public addRankedGame(rankings: Array<string>): void {
     console.log('add ranked game', rankings);
 
-    rankings.forEach((name) => {
+    rankings.forEach((name, i) => {
       const updatingPlayer = this.rankedPlayers.findIndex(
         (p: any) => p.playerName == name
       );
       if (updatingPlayer >= 0) {
         const oldValues = this.rankedPlayers[updatingPlayer];
-        const newElo = oldValues.eloRating + 32;
+        this.eloService.addPlayer(name, i, oldValues.eloRating);
+      } else {
+        this.eloService.addPlayer(name, i, 1000);
+      }
+    });
+    const results = this.eloService.calculateELOs();
+    results.forEach((player: any) => {
+      const updatingPlayer = this.rankedPlayers.findIndex(
+        (p: any) => p.playerName == player.name
+      );
+      if (updatingPlayer >= 0) {
+        const oldValues = this.rankedPlayers[updatingPlayer];
         const newValues = {
-          playerName: name,
-          eloRating: newElo,
+          playerName: player.name,
+          eloRating: player.eloPost,
           gamesPlayed: oldValues.gamesPlayed += 1,
-          pastRatings: [...oldValues.pastRatings, newElo],
+          pastRatings: [...oldValues.pastRatings, player.eloPost],
         } as Player;
         this.rankedPlayers[updatingPlayer] = newValues;
       } else {
-        const player = {
-          playerName: name,
+        const newPlayer = {
+          playerName: player.name,
           eloRating: 1000,
           gamesPlayed: 1,
           pastRatings: [1000],
         } as Player;
-        this.rankedPlayers = [...this.rankedPlayers, player];
+        this.rankedPlayers = [...this.rankedPlayers, newPlayer];
       }
     });
-    this.eloService.calculateELOs();
     this.eloService.clearPlayers();
   }
 }

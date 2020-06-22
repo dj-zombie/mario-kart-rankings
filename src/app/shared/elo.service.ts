@@ -61,5 +61,6 @@ export class EloService {
       this.players[i].eloPost =
         this.players[i].eloPre + this.players[i].eloChange;
     }
+    return this.players;
   }
 }
