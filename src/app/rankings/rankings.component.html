@@ -1,17 +1,17 @@
-<div style="text-align: center; padding: 3rem">
+<div class="container">
+  <img class="logo" src="assets/logo.png">
   <h1>Rankings</h1>
-  <a [routerLink]="['/new-match']">
+  <a [routerLink]="['/new-match']" class="new-match">
     New Match
   </a>
-  <hr/>
-
-  <!-- <div *ngIf="rankings$ | async"> -->
-  <div *ngIf="polledRankings$ | async">
-    <!-- <pre>{{ polledRankings$ | async | json }}</pre> -->
-    <!-- <div *ngFor="let ranking of rankings$ | async"> -->
-    <div *ngFor="let ranking of polledRankings$ | async">
-      <a [routerLink]="['/player/' + ranking.playerName]">
-        {{ ranking.playerName }} - {{ ranking.eloRating }}
+  <div *ngIf="polledRankings$ | async" class="rankings">
+    <div *ngFor="let ranking of polledRankings$ | async; index as i" class="ranking">
+      <img src="assets/dry-bones.png" class="avater" *ngIf="i == 0">
+      <span *ngIf="i == 0" class="first">1<small>st</small></span>
+      <a [routerLink]="['/player/' + ranking.playerName]" class="row">
+        <span class="place">{{i + 1}}</span>
+        <span class="name">{{ ranking.playerName }}</span>
+        <span class="score">{{ ranking.eloRating }}</span>
       </a>
     </div>
   </div>

@@ -6,11 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
   template: `
     <div class="app-container">
-      <app-header></app-header>
       <div class="main">
         <router-outlet></router-outlet>
       </div>
-      <app-footer></app-footer>
     </div>
   `,
 })
