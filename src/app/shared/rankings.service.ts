@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../core/services/api.service';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { EloService } from '../shared/elo.service';
 
 export interface Player {
   playerName: string;
   eloRating: number;
+  eloDifference: number;
   gamesPlayed: number;
   pastRatings: Array<number>;
-  history: Array<PastGame>;
 }
 
 export interface Rankings extends Array<Player> {}
@@ -25,7 +26,7 @@ export interface Match {
 
 export interface Matches {
   updatedAt: string;
-  list: Array<Match>
+  list: Array<Match>;
 }
 
 @Injectable({
@@ -38,7 +39,7 @@ export class RankingsService {
   );
   public readonly ranks: Observable<Array<any>> = this._rankings.asObservable();
 
-  constructor(private apiService: ApiService) {
+  constructor(private apiService: ApiService, private eloService: EloService) {
     this.rankedPlayers = [];
     this.apiService.matches.subscribe((matches: any) => {
       matches.list.forEach((match: Match) => {
@@ -66,6 +67,7 @@ export class RankingsService {
 
   public addRankedGame(rankings: Array<string>): void {
     console.log('add ranked game', rankings);
+
     rankings.forEach((name) => {
       const updatingPlayer = this.rankedPlayers.findIndex(
         (p: any) => p.playerName == name
@@ -90,5 +92,7 @@ export class RankingsService {
         this.rankedPlayers = [...this.rankedPlayers, player];
       }
     });
+    this.eloService.calculateELOs();
+    this.eloService.clearPlayers();
   }
 }

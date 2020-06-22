@@ -1,4 +1,9 @@
-export class Elo {
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class EloService {
   players: any;
 
   constructor() {
@@ -23,9 +28,14 @@ export class Elo {
     }
   }
 
+  clearPlayers() {
+    this.players = [];
+  }
+
   calculateELOs() {
     const n = this.players.length;
     const k = 32 / (n - 1);
+    console.log('calculateELOs', this.players);
 
     for (let i = 0; i < n; i++) {
       const curPlace = this.players[i].place;
