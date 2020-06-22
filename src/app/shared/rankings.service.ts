@@ -37,6 +37,7 @@ export interface Matches {
 })
 export class RankingsService {
   rankedPlayers: Array<Player>;
+  updatedAt: string;
   private _rankings: BehaviorSubject<Array<any>> = new BehaviorSubject(
     Array([])
   );
@@ -45,13 +46,18 @@ export class RankingsService {
   constructor(private apiService: ApiService, private eloService: EloService) {
     this.rankedPlayers = [];
 
-    interval(5000)
+    interval(3000)
       .pipe(
         startWith(0),
         switchMap(() => this.apiService.matches)
       )
       .subscribe((matches: any) => {
+        if (matches.updatedAt === this.updatedAt) {
+          return;
+        }
+        this.updatedAt = matches.updatedAt;
         matches.list.forEach((match: Match) => {
+          // const results = this.rankedPlayers.filter(({ playerName: id1 }) => !mat
           this.addRankedGame(match.standings);
         });
         this._rankings.next(this.rankings);
@@ -83,7 +89,7 @@ export class RankingsService {
   }
 
   public addRankedGame(rankings: Array<string>): void {
-    console.log('add ranked game', rankings);
+    // console.log('add ranked game', rankings);
 
     rankings.forEach((name, i) => {
       const updatingPlayer = this.rankedPlayers.findIndex(
@@ -115,7 +121,7 @@ export class RankingsService {
           playerName: player.name,
           eloRating: 1000,
           gamesPlayed: 1,
-          pastRatings: [1000],
+          pastRatings: [],
         } as Player;
         this.rankedPlayers = [...this.rankedPlayers, newPlayer];
       }
