@@ -3,6 +3,8 @@ import { ApiService } from '../core/services/api.service';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { EloService } from '../shared/elo.service';
 import { ConstantPool } from '@angular/compiler';
+import { interval } from 'rxjs/internal/observable/interval';
+import { startWith, switchMap } from 'rxjs/operators';
 
 export interface Player {
   playerName: string;
@@ -42,12 +44,26 @@ export class RankingsService {
 
   constructor(private apiService: ApiService, private eloService: EloService) {
     this.rankedPlayers = [];
-    this.apiService.matches.subscribe((matches: any) => {
+
+    interval(5000)
+      .pipe(
+        startWith(0),
+        switchMap(() => this.apiService.matches)
+      )
+      .subscribe((matches: any) => {
+        matches.list.forEach((match: Match) => {
+          this.addRankedGame(match.standings);
+        });
+        this._rankings.next(this.rankings);
+      });
+
+    /*this.apiService.matches
+      .subscribe((matches: any) => {
       matches.list.forEach((match: Match) => {
         this.addRankedGame(match.standings);
       });
       this._rankings.next(this.rankings);
-    });
+    });*/
   }
 
   get rankings(): Array<Player> {
