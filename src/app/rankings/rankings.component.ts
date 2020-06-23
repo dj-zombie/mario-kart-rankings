@@ -14,6 +14,16 @@ import { startWith, switchMap } from 'rxjs/operators';
 export class RankingsComponent implements OnInit {
   rankings$: Observable<Rankings>;
   polledRankings$: Observable<any>;
+  characterMap = {
+    'Dry bones': 'assets/player-troopa.gif',
+    'Baby peach': 'assets/player-peach.gif',
+    'Bowser': 'assets/player-bowser.gif',
+    'Mario': 'assets/player-mario.gif',
+    'Luigi': 'assets/player-luigi.gif',
+    'Yoshi': 'assets/player-yoshi.gif',
+    'Donkey kong': 'assets/player-donkey.gif',
+    'Toad': 'assets/player-toad.gif',
+  };
 
   constructor(private rankingsService: RankingsService) {}
 
@@ -24,5 +34,9 @@ export class RankingsComponent implements OnInit {
       switchMap(() => this.rankingsService.ranks)
     );
     this.rankings$ = this.rankingsService.ranks;
+  }
+
+  public getAvatar(playerName: string): string {
+    return this.characterMap.hasOwnProperty(playerName) ? this.characterMap[playerName] : 'assets/player-mario.gif';
   }
 }

@@ -35,7 +35,6 @@ export class EloService {
   calculateELOs() {
     const n = this.players.length;
     const k = 32 / (n - 1);
-    // console.log('calculateELOs', this.players);
 
     for (let i = 0; i < n; i++) {
       const curPlace = this.players[i].place;

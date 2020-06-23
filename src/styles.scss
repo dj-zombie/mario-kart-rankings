@@ -39,3 +39,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   align-content: space-between;
   height: 100%;
 }
+
+body {
+  animation: fadeInAnimation ease 3s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

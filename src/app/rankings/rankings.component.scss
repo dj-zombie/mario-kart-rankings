@@ -1,8 +1,9 @@
 .container {
   text-align: center;
-  padding: 3rem;
-  background: url('/assets/bg.png') no-repeat center bottom fixed;
+  padding-top: 3rem;
+  background: url('/assets/track.jpg') no-repeat center bottom fixed;
   height:100%;
+  background-color: #dbe2e5;
 }
 
 h1 {
@@ -13,6 +14,7 @@ h1 {
   color: white;
   margin-bottom:3rem;
   font-weight:bold;
+  transform: skewX(-30deg);
 }
 
 .logo {
@@ -33,7 +35,16 @@ a {
   margin: 1rem;
   padding: 0.5rem 2rem;
   border: 4px solid red;
-  color: gray;
+  color: #333;
+  box-shadow: 0px 1px 1px rgba(0,0,0,0.6);
+  background: #fff;
+  transition: all .3s;
+}
+.new-match:hover {
+  background: linear-gradient(to bottom, rgba(248,80,50,1) 0%,rgba(241,111,92,1) 50%,rgba(246,41,12,1) 51%,rgba(240,47,23,1) 71%,rgba(231,56,39,1) 100%);
+  color: white;
+  font-size: 18px;
+  box-shadow: 0px 0px 8px rgba(0,0,0,0.3);
 }
 
 .rankings {
@@ -53,36 +64,51 @@ a {
     background: rgba(0,0,80,0.2);
     position: relative;
     border: 2px solid #fefefe;
+    margin-bottom: -2px;
   }
   .avater {
-    height: 100px;
+    height: 80px;
     margin-right: 1rem;
+  }
+  .winner {
+    margin-bottom: 2rem;
+    border-radius: 1rem;
+    background: linear-gradient(to bottom, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%);
+    box-shadow: 0px 13px 8px rgba(0,0,0,0.2);
+    scale: 105%;
   }
   .first {
     position: absolute;
     left: -1rem;
     top: -1rem;
     background:#fefefe;
-    padding:1rem 1.1rem;
+    padding: 0.5rem;
     border: 2px solid #eee;
     border-radius: 100%;
-    color: red;
+    color: crimson;
     font-weight: bold;
     box-shadow: 2px 5px 15px rgba(0,0,0,0.3);
+    font-size: 18px;
   }
   .row {
     display: flex;
     flex:1;
+    transition: all .3s;
 
     .place {
       margin-right: 1rem;
+      color: #1e5799;
     }
     .name {
       flex: 1;
       text-align: left;
     }
     .score {
-      color: red;
+      color: crimson;
     }
+  }
+  .row:hover {
+    background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
+    font-size: 15px;
   }
 }

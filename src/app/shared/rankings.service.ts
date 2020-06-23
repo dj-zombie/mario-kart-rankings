@@ -38,18 +38,15 @@ export interface Matches {
 export class RankingsService {
   rankedPlayers: Array<Player>;
   updatedAt: string;
-  private _rankings: BehaviorSubject<Array<any>> = new BehaviorSubject(
-    Array([])
-  );
+  private _rankings: BehaviorSubject<Array<any>> = new BehaviorSubject(Array([]));
   public readonly ranks: Observable<Array<any>> = this._rankings.asObservable();
 
   constructor(private apiService: ApiService, private eloService: EloService) {
     this.rankedPlayers = [];
-
     interval(3000)
       .pipe(
         startWith(0),
-        switchMap(() => this.apiService.matches)
+        switchMap(() => this.apiService.getMatches())
       )
       .subscribe((matches: any) => {
         if (matches.updatedAt === this.updatedAt) {
@@ -57,19 +54,10 @@ export class RankingsService {
         }
         this.updatedAt = matches.updatedAt;
         matches.list.forEach((match: Match) => {
-          // const results = this.rankedPlayers.filter(({ playerName: id1 }) => !mat
           this.addRankedGame(match.standings);
         });
         this._rankings.next(this.rankings);
       });
-
-    /*this.apiService.matches
-      .subscribe((matches: any) => {
-      matches.list.forEach((match: Match) => {
-        this.addRankedGame(match.standings);
-      });
-      this._rankings.next(this.rankings);
-    });*/
   }
 
   get rankings(): Array<Player> {
@@ -89,8 +77,6 @@ export class RankingsService {
   }
 
   public addRankedGame(rankings: Array<string>): void {
-    // console.log('add ranked game', rankings);
-
     rankings.forEach((name, i) => {
       const updatingPlayer = this.rankedPlayers.findIndex(
         (p: any) => p.playerName == name
@@ -121,7 +107,7 @@ export class RankingsService {
           playerName: player.name,
           eloRating: 1000,
           gamesPlayed: 1,
-          pastRatings: [],
+          pastRatings: [1000],
         } as Player;
         this.rankedPlayers = [...this.rankedPlayers, newPlayer];
       }

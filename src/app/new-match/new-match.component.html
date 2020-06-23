@@ -1,18 +1,38 @@
-<div style="text-align: center; padding: 3rem">
-  <h1>New Match</h1>
-  <a routerLink="/rankings">Back</a>
-  <div class="example-container">
-    <mat-form-field appearance="fill" *ngFor="let i of iterator(numOfPlayers)">
-      <mat-label>Player {{i + 1}}</mat-label>
-      <input matInput placeholder="Mario" [formControl]="place[i]" required>
-      <mat-error *ngIf="place[i].invalid">{{getErrorMessage(i)}}</mat-error>
-    </mat-form-field>
-    <div>
-      <button (click)="addMatch()" mat-raised-button color="primary">
-        Add Match
-      </button>
-    </div>
+<div class="container">
+  <h1>
+    Rank a new match
+  </h1>
+  <div class="back">
+    <button routerLink="/rankings" mat-raised-button color="primary">
+      Back
+    </button>
   </div>
-
-
+  <div class="example-container">
+    <form [formGroup]="matchForm">
+      <p>
+        Enter the winning players
+      </p>
+      <mat-form-field appearance="outline">
+        <mat-label>First Place</mat-label>
+        <input matInput placeholder="Mario" formControlName="firstPlace" required>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Second Place</mat-label>
+        <input matInput placeholder="Luigi" formControlName="secondPlace" required>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Third Place</mat-label>
+        <input matInput placeholder="Yoshi" formControlName="thirdPlace" required>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Fourth Place</mat-label>
+        <input matInput placeholder="Toad" formControlName="fourthPlace" required>
+      </mat-form-field>
+      <div class="submit">
+        <button (click)="addMatch()" [disabled]="!matchForm.valid" mat-raised-button color="primary">
+          Add Match
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

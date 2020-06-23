@@ -15,14 +15,13 @@ export class ApiService {
   ) {}
 
   get matches() {
-    // if (!this.cache$) {
-    //   this.cache$ = this.getMatches().pipe(shareReplay(1));
-    // }
-    // return this.cache$;
-    return this.getMatches();
+    if (!this.cache$) {
+      this.cache$ = this.getMatches().pipe(shareReplay(1));
+    }
+    return this.cache$;
   }
 
-  private getMatches(): Observable<any> {
+  public getMatches(): Observable<any> {
     return this.apiHttpService.get(`${this.constants.API_ENDPOINT}/matches`);
   }
 

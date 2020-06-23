@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
+import { FormGroup, FormControl, Validators} from '@angular/forms';
 import { ApiService } from '../core/services/api.service';
 import { Router } from '@angular/router';
 
@@ -9,46 +9,31 @@ import { Router } from '@angular/router';
   styleUrls: ['./new-match.component.scss']
 })
 export class NewMatchComponent implements OnInit {
-  numOfPlayers: number = 4;
-  place = [];
+  matchForm = new FormGroup({
+    firstPlace: new FormControl('', [Validators.required]),
+    secondPlace: new FormControl('', [Validators.required]),
+    thirdPlace: new FormControl('', [Validators.required]),
+    fourthPlace: new FormControl('', [Validators.required]),
+  });
   constructor(
     private apiService: ApiService,
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    this.initForm();
-  }
-
-  private initForm() {
-    for (let i=0; i < this.numOfPlayers; i++) {
-      this.place[i] = new FormControl('', [Validators.required]);
-      console.log('i', i);
-    }
-  }
-
-  public iterator(n: number): number[] {
-    return [...Array(n).keys()];
-  }
-
-  public getErrorMessage(i: number) {
-    if (this.place[i].hasError('required')) {
-      return 'You must enter a value';
-    }
-  }
+  ngOnInit(): void {}
 
   public addMatch() {
-    let standings = [];
-    for (let i=0; i < this.numOfPlayers; i++) {
-      standings = [...standings, this.place[i].value];
-    }
+    const standings = [
+      this.matchForm.value.firstPlace,
+      this.matchForm.value.secondPlace,
+      this.matchForm.value.thirdPlace,
+      this.matchForm.value.fourthPlace
+    ];
     const match = {
       standings,
-      createdAt: '2021-06-15T09:49:51.299Z'
+      createdAt: new Date().toISOString()
     }
-    console.log('sending', match);
     this.apiService.addMatch(match).subscribe(() => {
-      console.log('new match submitted');
       this.router.navigate(['rankings']);
     });
   }

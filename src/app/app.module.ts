@@ -10,10 +10,11 @@ import { RankingsComponent } from './rankings/rankings.component';
 import { PlayerStatsComponent } from './player-stats/player-stats.component';
 import { NewMatchComponent } from './new-match/new-match.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 @NgModule({
   declarations: [AppComponent, RankingsComponent, PlayerStatsComponent, NewMatchComponent, PageNotFoundComponent],
-  imports: [BrowserModule, AppRoutingModule, CoreModule, LayoutModule, BrowserAnimationsModule, SharedModule],
+  imports: [BrowserModule, AppRoutingModule, CoreModule, LayoutModule, BrowserAnimationsModule, SharedModule, HighchartsChartModule],
   providers: [],
   bootstrap: [AppComponent],
 })

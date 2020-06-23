@@ -5,8 +5,8 @@
     New Match
   </a>
   <div *ngIf="polledRankings$ | async" class="rankings">
-    <div *ngFor="let ranking of polledRankings$ | async; index as i" class="ranking">
-      <img src="assets/dry-bones.png" class="avater" *ngIf="i == 0">
+    <div *ngFor="let ranking of polledRankings$ | async; index as i" class="ranking" [class.winner]="i == 0">
+      <img [src]="getAvatar(ranking.playerName)" class="avater" *ngIf="i >= 0">
       <span *ngIf="i == 0" class="first">1<small>st</small></span>
       <a [routerLink]="['/player/' + ranking.playerName]" class="row">
         <span class="place">{{i + 1}}</span>
